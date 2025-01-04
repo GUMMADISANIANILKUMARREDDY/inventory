@@ -1,0 +1,130 @@
+<!-- staff.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Staff</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>/* styles.css */
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            margin: 0;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background-color: #2c3e50;
+            color: #fff;
+            padding: 20px;
+            height: 100vh;
+        }
+        
+        .sidebar h2 {
+            text-align: center;
+        }
+        
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .sidebar ul li {
+            margin: 10px 0;
+        }
+        
+        .sidebar ul li a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            background-color: #34495e;
+            border-radius: 4px;
+        }
+        
+        .sidebar ul li a:hover {
+            background-color: #1abc9c;
+        }
+        
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+        }
+        </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Admin Dashboard</h2>
+        <ul>
+            <li><a href="managers.html">Managers</a></li>
+            <li><a href="staff.html">Staff</a></li>
+            <li><a href="suppliers.html">Suppliers</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="stock.html">Stock</a></li>
+            <li><a href="settings.html">Settings</a></li>
+            <li><a href="logout.html">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <h2>Manage Staff</h2>
+        <form id="staffForm">
+            <label for="name">Name:</label><br>
+            <input type="text" id="name" name="name"><br><br>
+
+            <label for="phone">Phone:</label><br>
+            <input type="text" id="phone" name="phone"><br><br>
+
+            <button type="submit">Add Staff</button>
+        </form>
+    </div>
+
+    <script src="script.js">// script.js
+
+        // Example for Managers page
+        document.addEventListener("DOMContentLoaded", function() {
+            const currentPage = window.location.pathname.split("/").pop();
+            
+            if (currentPage === 'managers.html') {
+                document.querySelector('.content').innerHTML = `
+                    <h2>Manage Managers</h2>
+                    <form id="managerForm">
+                        <label for="name">Name:</label><br>
+                        <input type="text" id="name" name="name"><br><br>
+                        
+                        <label for="phone">Phone:</label><br>
+                        <input type="text" id="phone" name="phone"><br><br>
+        
+                        <button type="submit">Add Manager</button>
+                    </form>
+                `;
+            } else if (currentPage === 'staff.html') {
+                document.querySelector('.content').innerHTML = `
+                    <h2>Manage Staff</h2>
+                    <form id="staffForm">
+                        <label for="name">Name:</label><br>
+                        <input type="text" id="name" name="name"><br><br>
+                        
+                        <label for="phone">Phone:</label><br>
+                        <input type="text" id="phone" name="phone"><br><br>
+        
+                        <button type="submit">Add Staff</button>
+                    </form>
+                `;
+            } else if (currentPage === 'settings.html') {
+                document.querySelector('.content').innerHTML = `
+                    <h2>Settings</h2>
+                    <p>Modify admin dashboard settings here.</p>
+                `;
+            }
+        });
+        </script>
+</body>
+</html>

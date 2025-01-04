@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Manager</title>
+    <style>
+        /* Basic Styling for Layout */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            position: fixed;
+            height: 100%;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            display: block;
+        }
+
+        .sidebar ul li a:hover {
+            background-color: #575757;
+            padding: 10px;
+        }
+
+        .logout {
+            color: red;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            width: 100%;
+            background-color: #fff;
+        }
+
+        section {
+            margin-bottom: 30px;
+        }
+
+        h3, h4 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        label {
+            font-size: 16px;
+            display: block;
+            margin: 5px 0;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #575757;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #f4f4f4;
+        }
+
+        table td button {
+            padding: 5px 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        table td button:hover {
+            background-color: darkred;
+        }
+
+        .editButton {
+            background-color: #007bff;
+        }
+
+        .editButton:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h2>Admin Dashboard</h2>
+            <ul>
+                <li><a href="#manager">Manager</a></li>
+                <li><a href="#staff">Staff</a></li>
+                <li><a href="#product">Product</a></li>
+                <li><a href="#supplier">Supplier</a></li>
+                <li><a href="#stock">Stock</a></li>
+                <li><a href="#settings">Settings</a></li>
+                <li><a href="#logout" class="logout">Logout</a></li>
+            </ul>
+        </div>
+        <div class="content">
+            <section id="manager">
+                <h3>Manager Section</h3>
+
+                <!-- Add Manager Form -->
+                <div>
+                    <h4>Add New Manager</h4>
+                    <form id="addManagerForm">
+                        <label for="managerName">Name:</label>
+                        <input type="text" id="managerName" name="managerName" required>
+
+                        <label for="managerEmail">Email:</label>
+                        <input type="email" id="managerEmail" name="managerEmail" required>
+
+                        <label for="managerPhone">Phone:</label>
+                        <input type="text" id="managerPhone" name="managerPhone" required>
+
+                        <button type="submit">Add Manager</button>
+                    </form>
+                </div>
+
+                <!-- Manager List -->
+                <div>
+                    <h4>List of Managers</h4>
+                    <table id="managerList">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Dynamically populated manager rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        // Example array to store Manager data (In real-world use, this would be fetched from a server)
+        let managers = [];
+
+        // Add Manager function
+        document.getElementById('addManagerForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('managerName').value;
+            const email = document.getElementById('managerEmail').value;
+            const phone = document.getElementById('managerPhone').value;
+
+            const newManager = {
+                id: managers.length + 1, // Simple ID logic
+                name: name,
+                email: email,
+                phone: phone
+            };
+
+            managers.push(newManager);
+            renderManagerList();
+            this.reset(); // Clear the form after submission
+        });
+
+        // Function to render the Manager list in the table
+        function renderManagerList() {
+            const tableBody = document.getElementById('managerList').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = ''; // Clear existing rows
+
+            managers.forEach(manager => {
+                const row = tableBody.insertRow();
+
+                row.insertCell(0).textContent = manager.id;
+                row.insertCell(1).textContent = manager.name;
+                row.insertCell(2).textContent = manager.email;
+                row.insertCell(3).textContent = manager.phone;
+
+                const actionsCell = row.insertCell(4);
+                
+                // Edit Button
+                const editButton = document.createElement('button');
+                editButton.textContent = 'Edit';
+                editButton.classList.add('editButton');
+                editButton.onclick = function() {
+                    editManager(manager.id);
+                };
+                actionsCell.appendChild(editButton);
+                
+                // Delete Button
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.onclick = function() {
+                    deleteManager(manager.id);
+                };
+                actionsCell.appendChild(deleteButton);
+            });
+        }
+
+        // Function to delete Manager by ID
+        function deleteManager(managerId) {
+            managers = managers.filter(manager => manager.id !== managerId);
+            renderManagerList();
+        }
+
+        // Function to edit Manager
+        function editManager(managerId) {
+            const manager = managers.find(manager => manager.id === managerId);
+            if (manager) {
+                // Populate the form with current manager details
+                document.getElementById('managerName').value = manager.name;
+                document.getElementById('managerEmail').value = manager.email;
+                document.getElementById('managerPhone').value = manager.phone;
+
+                // Change the Add button to Update button
+                const addButton = document.querySelector('#addManagerForm button');
+                addButton.textContent = 'Update Manager';
+                addButton.onclick = function(event) {
+                    event.preventDefault();
+                    updateManager(managerId);
+                };
+            }
+        }
+
+        // Function to update Manager
+        function updateManager(managerId) {
+            const manager = managers.find(manager => manager.id === managerId);
+            if (manager) {
+                manager.name = document.getElementById('managerName').value;
+                manager.email = document.getElementById('managerEmail').value;
+                manager.phone = document.getElementById('managerPhone').value;
+                renderManagerList();
+
+                // Reset the form and button to Add
+                const addButton = document.querySelector('#addManagerForm button');
+                addButton.textContent = 'Add Manager';
+                addButton.onclick = function(event) {
+                    event.preventDefault();
+                    addManager();
+                };
+
+                document.getElementById('addManagerForm').reset(); // Clear form fields
+            }
+        }
+    </script>
+</body>
+</html>

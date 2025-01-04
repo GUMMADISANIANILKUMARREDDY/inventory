@@ -1,0 +1,246 @@
+<!-- settings.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Change Username/Password</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>/* styles.css */
+
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+            background-color: #f4f6f9;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background-color: #2c3e50;
+            color: #fff;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+        }
+        
+        .sidebar h2 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+        
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .sidebar ul li {
+            margin: 10px 0;
+        }
+        
+        .sidebar ul li a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            background-color: #34495e;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .sidebar ul li a:hover {
+            background-color: #1abc9c;
+        }
+        
+        /* Main Content Area */
+        .content {
+            margin-left: 250px; /* This ensures the content doesn't go behind the sidebar */
+            flex-grow: 1;
+            padding: 40px 20px;
+            width: calc(100% - 250px); /* Full width minus the sidebar */
+        }
+        
+        h1, h2 {
+            color: #2c3e50;
+        }
+        
+        form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        form label {
+            font-size: 16px;
+            color: #2c3e50;
+            margin-bottom: 5px;
+            display: block;
+        }
+        
+        form input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        form input:focus {
+            border-color: #1abc9c;
+            outline: none;
+        }
+        
+        form button {
+            padding: 12px 20px;
+            background-color: #1abc9c;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        
+        form button:hover {
+            background-color: #16a085;
+        }
+        
+        form .error {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        form .success {
+            color: green;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+        
+            .content {
+                margin-left: 200px;
+                width: calc(100% - 200px);
+            }
+        
+            form {
+                width: 90%;
+                padding: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 100%;
+                position: relative;
+            }
+        
+            .content {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+        </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Admin Dashboard</h2>
+        <ul>
+            <li><a href="managers.html">Managers</a></li>
+            <li><a href="staff.html">Staff</a></li>
+            <li><a href="suppliers.html">Suppliers</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="stock.html">Stock</a></li>
+            <li><a href="settings.html">Settings</a></li>
+            <li><a href="logout.html">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <h2>Change Username/Password</h2>
+        <form id="settingsForm">
+            <!-- Current Password Field -->
+            <label for="currentPassword">Current Password:</label><br>
+            <input type="password" id="currentPassword" name="currentPassword" required><br><br>
+
+            <!-- New Username Field -->
+            <label for="newUsername">New Username:</label><br>
+            <input type="text" id="newUsername" name="newUsername" required><br><br>
+
+            <!-- New Password Field -->
+            <label for="newPassword">New Password:</label><br>
+            <input type="password" id="newPassword" name="newPassword" required><br><br>
+
+            <!-- Confirm New Password Field -->
+            <label for="confirmNewPassword">Confirm New Password:</label><br>
+            <input type="password" id="confirmNewPassword" name="confirmNewPassword" required><br><br>
+
+            <!-- Submit Button -->
+            <button type="submit">Save Changes</button>
+        </form>
+    </div>
+
+    <script src="script.js">// script.js
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const settingsForm = document.getElementById('settingsForm');
+            
+            // Check if we are on the settings page
+            const currentPage = window.location.pathname.split("/").pop();
+            
+            if (currentPage === 'settings.html') {
+                settingsForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    
+                    const currentPassword = document.getElementById('currentPassword').value;
+                    const newUsername = document.getElementById('newUsername').value;
+                    const newPassword = document.getElementById('newPassword').value;
+                    const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+        
+                    // Basic validation
+                    if (newPassword !== confirmNewPassword) {
+                        alert('New passwords do not match. Please try again.');
+                        return;
+                    }
+        
+                    // Additional validation can be added here, such as password strength checks, etc.
+        
+                    // If all is good, you can send the data to the server for processing (AJAX, Fetch API, etc.)
+                    console.log({
+                        currentPassword,
+                        newUsername,
+                        newPassword
+                    });
+        
+                    // Simulate successful update
+                    alert('Your username and password have been updated successfully!');
+                    
+                    // Reset the form fields
+                    settingsForm.reset();
+                });
+            }
+        });
+        </script>
+</body>
+</html>
